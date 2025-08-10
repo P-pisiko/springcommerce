@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/public/style.css">
+    <style>
+        /* Custom CSS for animations */
+        .hover-scale {
+            transition: transform 0.2s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.016);
+        }
+    </style>
+</head>
+<body style="background-color: rgba(0, 0, 0, 0.06);">
+<!-- HEADER PART -->
+<div class="sticky top-0 z-10 bg-blue-900 text-white shadow-lg">
+    <div class="flex items-center h-14 sticky justify-around  font-semibold">
+
+            <div class="flex justify-start items-center h-14 ">
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
+                    <button>Button 1 </button>
+                </a>
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
+                    <button>Button 2</button>
+                </a>
+                <a class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
+                    <button>Button 3</button>
+                </a>
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
+                    <button>Button 4</button>
+                </a>
+            </div>
+
+            <h2 class="text-xl font-bold justify-center">MARKET NAME</h2>
+
+            <div class="flex justify-start items-center h-14">
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
+                    <button>Button5</button>
+                </a>
+                <a th:href="@{/auth/login}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
+                    <button>Login</button>
+                </a>
+                <a th:href="@{/logout}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
+                    <button>Button5</button>
+                </a>
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
+                    <button>Button6</button>
+                </a>
+            </div>
+
+    </div>
+</div>
+
+<!-- SEARCH PART -->
+<div class="container mx-auto px-4 py-8">
+    <form class="flex flex-col md:flex-row gap-4 items-center">
+        <label class="text-lg font-medium text-gray-700">Search:</label>
+        <input type="text"
+               class="flex-1 min-w-[200px] px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+               placeholder="Search for anything...">
+        <button type="button"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+            Search
+        </button>
+    </form>
+</div>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout" />
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+</form>
+
+<div th:unless="${username} == null" class="box-content max-w-2/4">
+    <h1 th:text="'Hello' + ${username}"></h1>
+</div>
+
+<!-- PRODUCTS GRID -->
+<main class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div th:each="item : ${itemList}" class="hover-scale transition-transform">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <img src="/assets/raf.webp"
+                     alt="Product"
+                     class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 th:text="${item.item_name}"
+                        class="text-lg font-semibold text-gray-800 mb-2">
+                        Product Name
+                    </h3>
+                    <p th:text="${item.item_description}"
+                       class="text-gray-600 text-sm mb-4">
+                        Short description
+                    </p>
+                    <div class="flex justify-between items-center">
+                            <span th:text="${item.price} + ${' $'}"
+                                  class="text-lg font-bold text-blue-600">
+                                $99.99
+                            </span>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER PART -->
+<footer class="bg-blue-900 text-white mt-12 py-8 h-64">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center mb-4 md:mb-0">
+                <span class="text-2xl font-bold">MARKET NAME</span>
+                <p class="text-sm text-gray-300 mt-2">
+                    © Yasal bilmemneler
+                </p>
+            </div>
+
+            <nav class="flex flex-wrap gap-4 justify-center">
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                    About
+                </a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                    Privacy Policy
+                </a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                    Licensing
+                </a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                    Contact
+                </a>
+            </nav>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

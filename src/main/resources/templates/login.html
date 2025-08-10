@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="/public/style.css" rel="stylesheet">
+</head>
+<body class="h-screen w-full flex">
+<!-- Left Side (Form Section) -->
+<div class="w-2/4 flex flex-col justify-center items-center p-8 bg-gradient-to-r from-[#09122c] to-[#872341]">
+    <div class=" p-8 rounded-lg shadow-2xl w-full max-w-md">
+        <h2 class="text-3xl font-semibold text-left mb-6 text-white">Login</h2>
+
+        <form th:action="@{/auth/login}" method="post">
+            <!-- Username Field -->
+            <div class="mb-4">
+                <input type="text" name="username"  class="text-white bg-[#09122c73] input-field w-full px-4 py-2
+                border transition-all duration-200 border-[#8723418a] rounded-2xl hover:border-[#83344b] focus:border-[#b14564]
+                focus:outline-none" autocomplete="off" placeholder="Username" required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-6">
+                <input type="password" name="password"  class="text-white bg-[#09122c73] input-field w-full px-4 py-2
+                border transition-all duration-200 border-[#8723418a] rounded-2xl hover:border-[#83344b] focus:border-[#b14564]
+                focus:outline-none" autocomplete="off" placeholder="Password" required>
+            </div>
+
+            <!-- Error Message -->
+            <div th:if="${param.error}" class="mb-4 text-red-500 text-sm">
+                <span>Invalid credentials</span>
+            </div>
+
+            <div class="mb-8 text-right">
+                <a th:href="@{/}" class="font-semibold text-md text-[#f1bc4a]">Home</a><br>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-center">
+                <button type="submit" class="submit-button w-full py-2 bg-[#BE3144] text-white transition-all duration-300
+                font-semibold rounded-3xl hover:bg-[#CE4255] focus:outline-none focus:ring-2 focus:ring-[#BE3144]">
+                    Log in
+                </button>
+            </div>
+
+            <!-- CSRF Token -->
+            <input type="hidden" th:csrf="true" />
+        </form>
+        <div class="flex justify-center mt-7 opacity-80 ">
+            <a th:href="@{/auth/signup}" class="w-full ">
+                <button class="w-full py-2 bg-[#BE3144] text-white font-semibold rounded-3xl transition-all duration-300
+                hover:bg-[#CE4255] focus:outline-none focus:ring-2 focus:ring-[#BE3144]">
+                    Sign Up
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="w-2/4" >
+    <!--
+    <video autoplay muted loop class="w-full h-full object-cover">
+        <source src="/assets/video.mp4" type="video/mp4">
+        Not Supported
+    </video>
+    -->
+</div>
+</body>
+</html>
