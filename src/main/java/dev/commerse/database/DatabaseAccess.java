@@ -22,6 +22,6 @@ public class DatabaseAccess {
     {
         //MapSqlParameterSource params = new MapSqlParameterSource();
         String sql = "select * from item;";
-        return  jdbc.query(sql,  new BeanPropertyRowMapper<Item>(Item.class));
+        return  jdbc.query(sql,  new ItemRowMapper());
     }
 }

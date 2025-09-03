@@ -17,7 +17,7 @@
 </head>
 <body style="background-color: rgba(0, 0, 0, 0.06);">
 <!-- HEADER PART -->
-<div class="sticky top-0 z-10 bg-blue-900 text-white shadow-lg">
+<div class="sticky top-0 z-10 bg-blue-900 text-white shadow-lg overflow-hidden">
     <div class="flex items-center h-14 sticky justify-around  font-semibold">
 
             <div class="flex justify-start items-center h-14 ">
@@ -38,9 +38,10 @@
             <h2 class="text-xl font-bold justify-center">MARKET NAME</h2>
 
             <div class="flex justify-start items-center h-14">
-                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
-                    <button>Button5</button>
-                </a>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" value="Logout">Logout</button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                </form>
                 <a th:href="@{/auth/login}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">
                     <button>Login</button>
                 </a>
@@ -69,10 +70,7 @@
     </form>
 </div>
 
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Logout" />
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-</form>
+
 
 <div th:unless="${username} == null" class="box-content max-w-2/4">
     <h1 th:text="'Hello' + ${username}"></h1>
@@ -80,26 +78,44 @@
 
 <!-- PRODUCTS GRID -->
 <main class="container mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
         <div th:each="item : ${itemList}" class="hover-scale transition-transform">
             <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <img src="/assets/raf.webp"
-                     alt="Product"
-                     class="w-full h-48 object-cover">
+
+                <!-- Main image: use first image if present, otherwise placeholder -->
+                <img
+                        th:if="${item.images_name != null and !#lists.isEmpty(item.images_name)}"
+                        th:src="@{/assets/{fname}(fname=${item.images_name[0]})}"
+                        alt="Product"
+                        class="w-full h-48 object-cover" />
+
+                <img
+                        th:if="${item.images_name == null or #lists.isEmpty(item.images_name)}"
+                        src="/assets/raf.webp"
+                        alt="Product placeholder"
+                        class="w-full h-48 object-cover" />
+
                 <div class="p-6">
                     <h3 th:text="${item.item_name}"
-                        class="text-lg font-semibold text-gray-800 mb-2">
-                        Product Name
-                    </h3>
+                        class="text-lg font-semibold text-gray-800 mb-2">Product Name</h3>
+
                     <p th:text="${item.item_description}"
-                       class="text-gray-600 text-sm mb-4">
-                        Short description
-                    </p>
-                    <div class="flex justify-between items-center">
-                            <span th:text="${item.price} + ${' $'}"
-                                  class="text-lg font-bold text-blue-600">
-                                $99.99
-                            </span>
+                       class="text-gray-600 text-sm mb-4">Short description</p>
+
+                    <!-- thumbnails (optional) -->
+                    <div th:if="${item.images_name != null and #lists.size(item.images_name) > 1}"
+                         class="mt-3 flex gap-2">
+                        <img th:each="img, iterStat : ${item.images_name}"
+                             th:src="@{/images/{fname}(fname=${img})}"
+                             th:alt="${item.item_name + ' thumbnail'}"
+                             th:classappend="${iterStat.index == 0} ? 'ring-2 ring-blue-600' : ''"
+                             class="w-16 h-16 object-cover rounded-md cursor-pointer shadow-sm"/>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-4">
+            <span th:text="${item.price} + ' $'"
+                  class="text-lg font-bold text-blue-600">$99.99</span>
+
                         <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                             Add to Cart
                         </button>
@@ -109,6 +125,7 @@
         </div>
     </div>
 </main>
+
 
 <!-- FOOTER PART -->
 <footer class="bg-blue-900 text-white mt-12 py-8 h-64">
