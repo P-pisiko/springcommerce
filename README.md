@@ -32,13 +32,6 @@ Structure: product catalog, authentication, cart & order basics, and a MySQL sch
 - [Run](#run)
 
 
-
-## About
-
-#### Spring Boot based e-commerce reference/demo application.
-
-
-
 ## Features
 
 - Product catalog
@@ -47,7 +40,12 @@ Structure: product catalog, authentication, cart & order basics, and a MySQL sch
 - MySQL-backed persistence with clear schema and migration files included
 - Frontend views for basic UX (landing page, login, product listing)
 
----
+
+
+## About
+
+#### Spring Boot based e-commerce reference/demo application.
+
 
 ## Tech stack
 
@@ -56,7 +54,6 @@ Structure: product catalog, authentication, cart & order basics, and a MySQL sch
 - Thymeleaf HTML templates
 - Build: Maven or Gradle (see project files)
 
----
 
 ## Database design (MySQL)
 
